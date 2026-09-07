@@ -22,7 +22,7 @@ export default function Header() {
           href="/"
           className="text-2xl font-bold tracking-wide text-[#0f3d4a] whitespace-nowrap"
         >
-          zouk<span className="text-[#e07a3f]">.</span>
+          Bags<span className="text-[#e07a3f]">.</span>
         </a>
 
         <form
