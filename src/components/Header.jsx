@@ -13,22 +13,43 @@ const navLinks = [
 
 export default function Header() {
   const [query, setQuery] = useState("Sling Bags");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 font-sans">
-      {/* Top bar: logo, search, icons */}
-      <div className="max-w-[1400px] mx-auto flex items-center gap-8 px-6 md:px-10 py-4">
+      {/* Top bar: hamburger (mobile), logo, search, icons */}
+      <div className="max-w-[1400px] mx-auto flex items-center gap-4 md:gap-8 px-4 md:px-10 py-4">
+        {/* Hamburger — visible only on mobile */}
+        <button
+          aria-label="Toggle menu"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+          className="md:hidden shrink-0 text-gray-900"
+        >
+          {mobileMenuOpen ? (
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="18" y1="6" x2="6" y2="18" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          )}
+        </button>
+
         <a
           href="/"
           className="text-2xl font-bold tracking-wide text-[#0f3d4a] whitespace-nowrap"
         >
-          Bags<span className="text-[#e07a3f]">.</span>
+          zouk<span className="text-[#e07a3f]">.</span>
         </a>
 
         <form
           onSubmit={(e) => e.preventDefault()}
           role="search"
-          className="hidden sm:flex flex-1 items-center gap-2 max-w-[620px] border border-gray-300 rounded-full px-4 py-2.5 text-gray-500"
+          className="flex flex-1 items-center gap-2 max-w-[620px] border border-gray-300 rounded-full px-4 py-2.5 text-gray-500"
         >
           <svg
             viewBox="0 0 24 24"
@@ -81,9 +102,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Nav row */}
-      <nav className="border-t border-gray-100 overflow-x-auto">
-        <ul className="max-w-[1400px] mx-auto flex items-center justify-start md:justify-center gap-5 md:gap-8 px-6 py-3.5 list-none whitespace-nowrap">
+      {/* Nav row — desktop only */}
+      <nav className="hidden md:block border-t border-gray-100">
+        <ul className="max-w-[1400px] mx-auto flex items-center justify-center gap-5 md:gap-8 px-6 py-3.5 list-none whitespace-nowrap">
           {navLinks.map((link) => (
             <li key={link}>
               <a
@@ -96,6 +117,25 @@ export default function Header() {
           ))}
         </ul>
       </nav>
+
+      {/* Nav — mobile dropdown, opens below top bar when hamburger is clicked */}
+      {mobileMenuOpen && (
+        <nav className="md:hidden border-t border-gray-100 bg-white">
+          <ul className="flex flex-col list-none">
+            {navLinks.map((link) => (
+              <li key={link} className="border-b border-gray-100 last:border-b-0">
+                <a
+                  href={`/${link.toLowerCase().replace(/[.\s]+/g, "-")}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-5 py-3.5 text-sm font-semibold tracking-wide text-gray-900 hover:text-[#e07a3f]"
+                >
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }
